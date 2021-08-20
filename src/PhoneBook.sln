@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{C937A242-83CE-440B-BEDF-4CE109A03329}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.PersonApi", "Services\Kisi\PhoneBook.Services.KisiApi\PhoneBook.Services.PersonApi.csproj", "{A3A45C41-E183-4613-9B28-053159818C6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.PersonApi", "Services\PhoneBook.Services.PersonApi\PhoneBook.Services.PersonApi.csproj", "{A3A45C41-E183-4613-9B28-053159818C6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
