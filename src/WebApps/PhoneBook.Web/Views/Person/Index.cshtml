@@ -73,12 +73,12 @@
                     </h5>
 
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-action text-primary" v-on:click="addContact()" style="cursor:pointer;" v-if="selectedPerson.id != undefined">
+                        <li class="list-group-item list-group-item-action text-primary" v-on:click="popupContactModal('add', null)" style="cursor:pointer;" v-if="selectedPerson.id != undefined">
                             <i class="fas fa-plus"></i> İletişim Bilgisi Ekle
                         </li>
 
                         <li class="list-group-item list-group-item-action" v-for="item in selectedPersonContacts">
-                            <div class="text-muted" v-on:click="selectPersonContact(item)" style="cursor:pointer;">
+                            <div class="text-muted" v-on:click="popupContactModal('update', item)" style="cursor:pointer;">
                                 <p v-html="getContactTypeValue(item.contactTypeId)" class="mb-0  font-weight-bold"></p>
                                 <span class="text-muted">{{item.value}}</span>
                             </div>
@@ -127,16 +127,54 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-primary" v-on:click="deleteContact()">Onayla</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deletePersonContact()">Onayla</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <form id="contactForm" v-on:submit="saveContact($event)" >
+        <div class="modal fade" id="saveContactModal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">İletişim Bilgisi Ekleme</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Bilgi Tipi</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" v-model="contactUpdateModel.contactTypeId" required>
+                                    <option v-bind:value="contact.id" v-for="contact in contactTypes" v-bind:key="contact.id">{{contact.value}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Bilgi İçeriği</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" v-model="contactUpdateModel.value" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 @section Scripts{
     <script>
-        const kisiApp = {
+        const personApp = {
             data() {
                 return {
                     personList: [],
@@ -145,6 +183,7 @@
                     selectedPersonContacts: [],
                     deletedPerson: {},
                     deletedContact: {},
+                    contactUpdateModel: {},
 
                 }
             },
@@ -152,7 +191,7 @@
             methods: {
 
                 getPersonList() {
-                    axios.post("/Kisi/GetPersonList")
+                    axios.post("/Person/GetPersonList")
                         .then(res => {
                             this.personList = res.data;
                         });
@@ -161,7 +200,7 @@
                 getPersonDetail(kisi) {
 
                     let p = { id: kisi.id };
-                    axios.post("/Kisi/GetPersonContacts", p)
+                    axios.post("/Person/GetPersonContacts", p)
                         .then(res => {
 
                             this.selectedPerson = Object.assign({}, kisi);
@@ -171,7 +210,7 @@
 
                 getContactTypes() {
 
-                    axios.post("/Kisi/GetContactTypes")
+                    axios.post("/Person/GetContactTypes")
                         .then(res => {
                             this.contactTypes = res.data;
                         });
@@ -189,7 +228,7 @@
                 savePerson(event) {
                     event.preventDefault();
 
-                    axios.post("/Kisi/SavePerson", this.selectedPerson)
+                    axios.post("/Person/SavePerson", this.selectedPerson)
                         .then(res => {
                             if (res.data.error != undefined) {
                                 toastr.error(res.data.error);
@@ -208,7 +247,7 @@
                 deletePerson() {
                     if (this.deletedPerson.id != undefined) {
                         let p = { id: this.deletedPerson.id };
-                        axios.post("/Kisi/DeletePerson", p )
+                        axios.post("/Person/DeletePerson", p)
                             .then(res => {
                                 if (res.data.error != undefined) {
                                     toastr.error(res.data.error);
@@ -220,6 +259,7 @@
 
                                 this.deletedPerson = {};
                                 this.selectedPerson = {};
+                                this.selectedPersonContacts = [];
                                 toastr.success("İşlem Başarılı");
                                 $('#deleteConfirmationModal').modal("hide");
 
@@ -235,7 +275,63 @@
                 deleteContactConfirmation(contact) {
                     this.deletedContact = contact;
                     $('#deleteContactModal').modal("show");
-                }
+                },
+
+                popupContactModal(type, contact) {
+                    if (type == "add") {
+                        this.contactUpdateModel = { contactTypeId: 1, personId: this.selectedPerson.id, value: "" };
+                    }
+                    else {
+                        this.contactUpdateModel = Object.assign({}, contact);
+                    }
+
+                    $('#saveContactModal').modal('show');
+                },
+
+                saveContact(event) {
+                    event.preventDefault();
+
+                    axios.post("/Person/SaveContact", this.contactUpdateModel)
+                        .then(res => {
+                            if (res.data.error != undefined) {
+                                toastr.error(res.data.error);
+                                return false;
+                            }
+
+                            let tempArray = this.selectedPersonContacts.filter(a => a.id != res.data.id);
+                            tempArray.splice(0, 0, Object.assign({}, res.data));
+                            this.selectedPersonContacts = tempArray;
+
+                            this.contactUpdateModel = {};
+                            toastr.success("Kayıt Başarılı");
+
+                            $('#saveContactModal').modal('hide');
+                        });
+                },
+
+                deletePersonContact() {
+
+                    if (this.deletedContact.id != undefined) {
+
+                        let p = { id: this.deletedContact.id };
+
+                        axios.post("/Person/DeletePersonContact", p)
+                            .then(res => {
+                                if (res.data.error != undefined) {
+                                    toastr.error(res.data.error);
+                                    return false;
+                                }
+
+                                let tempArray = this.selectedPersonContacts.filter(a => a.id != this.deletedContact.id);
+                                this.selectedPersonContacts = tempArray;
+
+                                this.deletedContact = {};
+                                toastr.success("İşlem Başarılı");
+                                $('#deleteContactModal').modal("hide");
+
+                            });
+                    }
+                },
             },
 
             mounted: function () {
@@ -248,6 +344,6 @@
 
         };
 
-        const vmKisiApp = Vue.createApp(kisiApp).mount('#app');
+        const vmPersonApp = Vue.createApp(personApp).mount('#app');
     </script>
 }

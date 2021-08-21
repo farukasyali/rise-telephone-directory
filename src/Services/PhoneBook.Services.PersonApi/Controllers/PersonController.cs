@@ -41,7 +41,7 @@ namespace PhoneBook.Services.PersonApi.Controllers
         [HttpPost("savePerson")]
         public async Task<IActionResult> SavePerson([FromBody] PersonDto model)
         {
-            var entity = _mapper.Map<Person>(model);
+            var entity = _mapper.Map<Persons>(model);
             if(model.Id == Guid.Empty)
             {
                 model.Id = Guid.NewGuid();

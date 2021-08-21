@@ -109,6 +109,33 @@ namespace PhoneBook.Web.Services
             return "{'success': 'Başarılı'}";
         }
 
+        public async Task<string> SavePersonContact(PersonContactDto model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var response = await _client.PostAsync("api/PersonContact/savePersonContact/", data);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return "{'error': 'Servis çağrısından hata alındı.'}";
+            }
+
+            var responseSuccess = await response.Content.ReadAsStringAsync();
+
+            return responseSuccess;
+        }
+
+        public async Task<string> DeletePersonContact(Guid id)
+        {
+            var response = await _client.DeleteAsync($"api/PersonContact/deletePersonContact/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return "{'error': 'Servis çağrısından hata alındı.'}";
+            }
+
+            return "{'success': 'Başarılı'}";
+        }
     }
 }

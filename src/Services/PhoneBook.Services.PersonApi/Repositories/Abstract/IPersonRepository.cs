@@ -2,7 +2,7 @@
 
 namespace PhoneBook.Services.PersonApi.Repositories.Abstract
 {
-    public interface IPersonRepository : IRepository<Person>
+    public interface IPersonRepository : IRepository<Persons>
     {
     }
 }

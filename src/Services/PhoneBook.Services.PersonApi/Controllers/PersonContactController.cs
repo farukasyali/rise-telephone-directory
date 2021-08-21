@@ -49,6 +49,47 @@ namespace PhoneBook.Services.PersonApi.Controllers
 
         }
 
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonContactDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpPost("savePersonContact")]
+        public async Task<IActionResult> SavePerson([FromBody] PersonContactDto model)
+        {
+            var entity = _mapper.Map<PersonContacts>(model);
+            if (model.Id == Guid.Empty)
+            {
+                model.Id = Guid.NewGuid();
+                entity = await _personContactService.AddAsync(entity);
+            }
+            else
+            {
+                entity = _personContactService.Update(entity);
+            }
+
+            return Ok(_mapper.Map<PersonContactDto>(entity));
+
+        }
+
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpDelete]
+        [Route("/api/[controller]/deletePersonContact/{id}")]
+        public async Task<IActionResult> DeletePerson(Guid id)
+        {
+            var entity = await _personContactService.GetByIdAsync(id);
+
+            if (entity == null)
+                return BadRequest("Kayıt bulunamadı");
+
+            _personContactService.Remove(entity);
+
+            return Ok(true);
+        }
+
+
+        
+
 
     }
 }

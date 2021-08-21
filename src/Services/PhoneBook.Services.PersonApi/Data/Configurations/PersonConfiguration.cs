@@ -4,9 +4,9 @@ using PhoneBook.Services.PersonApi.Models;
 
 namespace PhoneBook.Services.PersonApi.Data.Configurations
 {
-    public class PersonConfiguration : IEntityTypeConfiguration<Person>
+    public class PersonConfiguration : IEntityTypeConfiguration<Persons>
     {
-        public void Configure(EntityTypeBuilder<Person> builder)
+        public void Configure(EntityTypeBuilder<Persons> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -16,7 +16,7 @@ namespace PhoneBook.Services.PersonApi.Data.Configurations
 
             builder.Property(x => x.Company).HasMaxLength(250);
 
-            builder.ToTable("Person");
+            builder.ToTable("Persons");
         }
     }
 }

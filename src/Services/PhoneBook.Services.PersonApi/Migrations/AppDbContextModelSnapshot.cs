@@ -19,7 +19,7 @@ namespace PhoneBook.Services.PersonApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.ContactType", b =>
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.ContactTypes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,7 +33,7 @@ namespace PhoneBook.Services.PersonApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactType");
+                    b.ToTable("ContactTypes");
 
                     b.HasData(
                         new
@@ -53,7 +53,32 @@ namespace PhoneBook.Services.PersonApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Person", b =>
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.PersonContacts", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ContactTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactTypeId");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("PersonContacts");
+                });
+
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Persons", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,58 +100,29 @@ namespace PhoneBook.Services.PersonApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person");
+                    b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.PersonContact", b =>
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.PersonContacts", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("ContactTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContactTypeId")
-                        .IsUnique();
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("PersonContact");
-                });
-
-            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.PersonContact", b =>
-                {
-                    b.HasOne("PhoneBook.Services.PersonApi.Models.ContactType", null)
-                        .WithOne("PersonContact")
-                        .HasForeignKey("PhoneBook.Services.PersonApi.Models.PersonContact", "ContactTypeId")
+                    b.HasOne("PhoneBook.Services.PersonApi.Models.ContactTypes", "ContactType")
+                        .WithMany()
+                        .HasForeignKey("ContactTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhoneBook.Services.PersonApi.Models.Person", "Person")
+                    b.HasOne("PhoneBook.Services.PersonApi.Models.Persons", "Person")
                         .WithMany("PersonContacts")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ContactType");
+
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.ContactType", b =>
-                {
-                    b.Navigation("PersonContact");
-                });
-
-            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Person", b =>
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Persons", b =>
                 {
                     b.Navigation("PersonContacts");
                 });

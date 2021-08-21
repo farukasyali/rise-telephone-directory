@@ -4,7 +4,7 @@ using PhoneBook.Services.PersonApi.Repositories.Abstract;
 
 namespace PhoneBook.Services.PersonApi.Repositories.Concrete.EntityFramework
 {
-    public class PersonRepository : EfRepository<Person>, IPersonRepository
+    public class PersonRepository : EfRepository<Persons>, IPersonRepository
     {
         private AppDbContext _appDbContext { get => _context as AppDbContext; }
 

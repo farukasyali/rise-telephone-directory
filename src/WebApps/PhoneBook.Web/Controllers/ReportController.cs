@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Web.Controllers
 {
-    public class RaporController : Controller
+    public class ReportController : Controller
     {
         public IActionResult Index()
         {

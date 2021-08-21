@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Services.PersonApi.Data.Configurations 
 {
-    public class PersonContactConfiguration : IEntityTypeConfiguration<PersonContact>
+    public class PersonContactConfiguration : IEntityTypeConfiguration<PersonContacts>
     {
-        public void Configure(EntityTypeBuilder<PersonContact> builder)
+        public void Configure(EntityTypeBuilder<PersonContacts> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -18,7 +18,7 @@ namespace PhoneBook.Services.PersonApi.Data.Configurations
 
             builder.Property(x => x.Value).IsRequired();
 
-            builder.ToTable("PersonContact");
+            builder.ToTable("PersonContacts");
         }
     }
 }

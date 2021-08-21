@@ -2,7 +2,7 @@
 
 namespace PhoneBook.Services.PersonApi.Models
 {
-    public class PersonContact : IEntity
+    public class PersonContacts : IEntity
     {
        
         public Guid Id { get; set; }
@@ -10,6 +10,7 @@ namespace PhoneBook.Services.PersonApi.Models
         public int ContactTypeId { get; set; }
         public string Value { get; set; }
 
-        public virtual Person Person { get; set; }
+        public virtual Persons Person { get; set; }
+        public virtual ContactTypes ContactType { get; set; }
     }
 }

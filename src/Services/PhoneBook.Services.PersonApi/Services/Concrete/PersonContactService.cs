@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Services.PersonApi.Services.Concrete
 {
-    public class PersonContactService : Service<PersonContact>, IPersonContactService
+    public class PersonContactService : Service<PersonContacts>, IPersonContactService
     {
-        public PersonContactService(IUnitOfWork unitOfWork, IRepository<PersonContact> repository) : base(unitOfWork,repository)
+        public PersonContactService(IUnitOfWork unitOfWork, IRepository<PersonContacts> repository) : base(unitOfWork,repository)
         {
         }
 
-        public async Task<IEnumerable<PersonContact>> GetAllByPersonId(Guid id)
+        public async Task<IEnumerable<PersonContacts>> GetAllByPersonId(Guid id)
         {
             return await _unitOfWork.PersonContacts.Where(a => a.PersonId == id);
         }
 
-        public async Task<IEnumerable<ContactType>> GetContactTypeList()
+        public async Task<IEnumerable<ContactTypes>> GetContactTypeList()
         {
             return await _unitOfWork.PersonContacts.GetContactTypeList();
         }

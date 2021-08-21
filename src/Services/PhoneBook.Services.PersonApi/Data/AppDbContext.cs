@@ -9,11 +9,11 @@ namespace PhoneBook.Services.PersonApi.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
 
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<Persons> Persons { get; set; }
 
-        public DbSet<PersonContact> PersonContact { get; set; }
+        public DbSet<PersonContacts> PersonContacts { get; set; }
 
-        public DbSet<ContactType> ContactType { get; set; }
+        public DbSet<ContactTypes> ContactTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

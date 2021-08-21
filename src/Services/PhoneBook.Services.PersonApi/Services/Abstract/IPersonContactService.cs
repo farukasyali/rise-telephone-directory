@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Services.PersonApi.Services.Abstract
 {
-    public interface IPersonContactService : IService<PersonContact>
+    public interface IPersonContactService : IService<PersonContacts>
     {
-        Task<IEnumerable<ContactType>> GetContactTypeList();
-        Task<IEnumerable<PersonContact>> GetAllByPersonId(Guid id);
+        Task<IEnumerable<ContactTypes>> GetContactTypeList();
+        Task<IEnumerable<PersonContacts>> GetAllByPersonId(Guid id);
         
     }
 }

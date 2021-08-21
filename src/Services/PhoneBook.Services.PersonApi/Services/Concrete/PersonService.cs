@@ -5,9 +5,9 @@ using PhoneBook.Services.PersonApi.UnitOfWorks;
 
 namespace PhoneBook.Services.PersonApi.Services.Concrete
 {
-    public class PersonService : Service<Person>, IPersonService
+    public class PersonService : Service<Persons>, IPersonService
     {
-        public PersonService(IUnitOfWork unitOfWork, IRepository<Person> repository) : base(unitOfWork, repository)
+        public PersonService(IUnitOfWork unitOfWork, IRepository<Persons> repository) : base(unitOfWork, repository)
         {
         }
     }

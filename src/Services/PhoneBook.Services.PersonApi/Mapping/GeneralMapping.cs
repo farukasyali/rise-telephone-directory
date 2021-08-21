@@ -8,11 +8,11 @@ namespace PhoneBook.Services.PersonApi.Mapping
     {
         public GeneralMapping()
         {
-            CreateMap<Person, PersonDto>().ReverseMap();
+            CreateMap<Persons, PersonDto>().ReverseMap();
 
-            CreateMap<PersonContact, PersonContactDto>().ReverseMap();
+            CreateMap<PersonContacts, PersonContactDto>().ReverseMap();
 
-            CreateMap<ContactType, ContactTypeDto>().ReverseMap();
+            CreateMap<ContactTypes, ContactTypeDto>().ReverseMap();
 
         }
     }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Services.PersonApi.Repositories.Abstract
 {
-    public interface IPersonContactRepository : IRepository<PersonContact>
+    public interface IPersonContactRepository : IRepository<PersonContacts>
     {
-        Task<IEnumerable<ContactType>> GetContactTypeList();
+        Task<IEnumerable<ContactTypes>> GetContactTypeList();
     }
 }

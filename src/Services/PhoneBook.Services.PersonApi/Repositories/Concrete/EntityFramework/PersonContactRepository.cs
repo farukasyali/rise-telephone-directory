@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Services.PersonApi.Repositories.Concrete.EntityFramework
 {
-    public class PersonContactRepository : EfRepository<PersonContact>, IPersonContactRepository
+    public class PersonContactRepository : EfRepository<PersonContacts>, IPersonContactRepository
     {
         private AppDbContext _appDbContext { get => _context as AppDbContext; }
 
@@ -15,9 +15,9 @@ namespace PhoneBook.Services.PersonApi.Repositories.Concrete.EntityFramework
         {
         }
 
-        public async Task<IEnumerable<ContactType>> GetContactTypeList()
+        public async Task<IEnumerable<ContactTypes>> GetContactTypeList()
         {
-            return await _appDbContext.ContactType.ToListAsync();
+            return await _appDbContext.ContactTypes.ToListAsync();
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Web.Controllers
 {
-    public class KisiController : Controller
+    public class PersonController : Controller
     {
         private readonly IPersonService _personService;
 
-        public KisiController(IPersonService personService)
+        public PersonController(IPersonService personService)
         {
             _personService = personService;
         }
@@ -58,6 +58,21 @@ namespace PhoneBook.Web.Controllers
             return new ContentResult() { Content = result, ContentType = "application/json" };
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> SaveContact([FromBody] PersonContactDto model)
+        {
+            var result = await _personService.SavePersonContact(model);
+            return new ContentResult() { Content = result, ContentType = "application/json" };
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePersonContact([FromBody] RequestModel model)
+        {
+            var result = await _personService.DeletePersonContact(model.id);
+            return new ContentResult() { Content = result, ContentType = "application/json" };
+        }
+
+
+
     }
 }

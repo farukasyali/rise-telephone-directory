@@ -4,9 +4,9 @@ using PhoneBook.Services.PersonApi.Models;
 
 namespace PhoneBook.Services.PersonApi.Data.Configurations
 {
-    public class ContactTypeConfiguration : IEntityTypeConfiguration<ContactType>
+    public class ContactTypeConfiguration : IEntityTypeConfiguration<ContactTypes>
     {
-        public void Configure(EntityTypeBuilder<ContactType> builder)
+        public void Configure(EntityTypeBuilder<ContactTypes> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -14,7 +14,7 @@ namespace PhoneBook.Services.PersonApi.Data.Configurations
 
             builder.Property(x => x.Value).IsRequired().HasMaxLength(50);
 
-            builder.ToTable("ContactType");
+            builder.ToTable("ContactTypes");
         }
     }
 }

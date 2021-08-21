@@ -2,7 +2,7 @@
 
 namespace PhoneBook.Services.PersonApi.Services.Abstract
 {
-    public interface IPersonService : IService<Person>
+    public interface IPersonService : IService<Persons>
     {
     }
 }

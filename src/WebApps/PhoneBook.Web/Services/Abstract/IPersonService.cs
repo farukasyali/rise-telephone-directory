@@ -18,5 +18,9 @@ namespace PhoneBook.Web.Services.Abstract
 
         Task<string> DeletePerson(Guid id);
 
+        Task<string> SavePersonContact(PersonContactDto model);
+
+        Task<string> DeletePersonContact(Guid id);
+
     }
 }
