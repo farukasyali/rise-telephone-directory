@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{C937A242-83CE-440B-BEDF-4CE109A03329}"
 EndProject
+
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.PersonApi", "Services\PhoneBook.Services.PersonApi\PhoneBook.Services.PersonApi.csproj", "{A3A45C41-E183-4613-9B28-053159818C6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Web", "WebApps\PhoneBook.Web\PhoneBook.Web.csproj", "{097B2F87-3934-4118-AE0F-F780D0D7B344}"
@@ -32,6 +33,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A3A45C41-E183-4613-9B28-053159818C6F} = {1E0EFF25-BAC4-4A89-9F04-79FC42270EAB}
 		{097B2F87-3934-4118-AE0F-F780D0D7B344} = {C937A242-83CE-440B-BEDF-4CE109A03329}
+	EndGlobalSection
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E522651-4038-497B-AB68-9AC9FD7BAE86}
