@@ -1,0 +1,253 @@
+﻿
+@{
+    ViewBag.Title = "Kişiler";
+}
+
+<h1 class="display-4">Kişiler</h1>
+<hr />
+
+<div id="app">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="">
+                Kişi Listesi
+            </h4>
+        </div>
+
+        <div class="col-4">
+
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action text-primary" v-on:click="addPerson()" style="cursor:pointer;">
+                    <i class="fas fa-plus"></i> Kişi Ekle
+                </li>
+                <li class="list-group-item list-group-item-action" v-for="item in personList">
+                    <div v-on:click="getPersonDetail(item)" style="cursor:pointer;">
+                        <p class="mb-0"> {{item.name + ' ' + item.surname}} </p>
+                        <small class="text-muted">{{item.company}}</small>
+                    </div>
+
+                    <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;" v-on:click="deletePersonConfirmation(item)">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="col-8">
+            <h5 class="">
+                Kişi Bilgileri
+            </h5>
+            <div class="card border">
+                <div class="card-body">
+                    <form v-on:submit="savePerson($event)" id="personForm">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Adı</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" v-model="selectedPerson.name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Soyadı</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" v-model="selectedPerson.surname" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Firma</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" v-model="selectedPerson.company">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success float-right" type="submit">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr />
+                    <h5 class="">
+                        İletişim Bilgileri
+                    </h5>
+
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action text-primary" v-on:click="addContact()" style="cursor:pointer;" v-if="selectedPerson.id != undefined">
+                            <i class="fas fa-plus"></i> İletişim Bilgisi Ekle
+                        </li>
+
+                        <li class="list-group-item list-group-item-action" v-for="item in selectedPersonContacts">
+                            <div class="text-muted" v-on:click="selectPersonContact(item)" style="cursor:pointer;">
+                                <p v-html="getContactTypeValue(item.contactTypeId)" class="mb-0  font-weight-bold"></p>
+                                <span class="text-muted">{{item.value}}</span>
+                            </div>
+
+                            <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;" v-on:click="deleteContactConfirmation(item)">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Kişi Silme Onayı</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    "{{deletedPerson.name + ' ' + deletedPerson.surname}}" kişisini silmek için onaylayınız.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deletePerson()">Onayla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteContactModal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">İletişim Bilgisi Silme Onayı</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Silmek için onaylayınız.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deleteContact()">Onayla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const kisiApp = {
+            data() {
+                return {
+                    personList: [],
+                    selectedPerson: {},
+                    contactTypes: {},
+                    selectedPersonContacts: [],
+                    deletedPerson: {},
+                    deletedContact: {},
+
+                }
+            },
+
+            methods: {
+
+                getPersonList() {
+                    axios.post("/Kisi/GetPersonList")
+                        .then(res => {
+                            this.personList = res.data;
+                        });
+                },
+
+                getPersonDetail(kisi) {
+
+                    let p = { id: kisi.id };
+                    axios.post("/Kisi/GetPersonContacts", p)
+                        .then(res => {
+
+                            this.selectedPerson = Object.assign({}, kisi);
+                            this.selectedPersonContacts = res.data;
+                        });
+                },
+
+                getContactTypes() {
+
+                    axios.post("/Kisi/GetContactTypes")
+                        .then(res => {
+                            this.contactTypes = res.data;
+                        });
+                },
+
+                getContactTypeValue(id) {
+                    return this.contactTypes.filter(a => a.id == id)[0].value;
+                },
+
+                addPerson() {
+                    this.selectedPerson = {};
+                    this.selectedPersonContacts = [];
+                },
+
+                savePerson(event) {
+                    event.preventDefault();
+
+                    axios.post("/Kisi/SavePerson", this.selectedPerson)
+                        .then(res => {
+                            if (res.data.error != undefined) {
+                                toastr.error(res.data.error);
+                                return false;
+                            }
+
+                            let tempArray = this.personList.filter(a => a.id != res.data.id);
+                            tempArray.splice(0, 0, Object.assign({}, res.data));
+                            this.personList = tempArray;
+
+                            this.selectedPerson = res.data;
+                            toastr.success("Kayıt Başarılı");
+                        });
+                },
+
+                deletePerson() {
+                    if (this.deletedPerson.id != undefined) {
+                        let p = { id: this.deletedPerson.id };
+                        axios.post("/Kisi/DeletePerson", p )
+                            .then(res => {
+                                if (res.data.error != undefined) {
+                                    toastr.error(res.data.error);
+                                    return false;
+                                }
+
+                                let tempArray = this.personList.filter(a => a.id != this.deletedPerson.id);
+                                this.personList = tempArray;
+
+                                this.deletedPerson = {};
+                                this.selectedPerson = {};
+                                toastr.success("İşlem Başarılı");
+                                $('#deleteConfirmationModal').modal("hide");
+
+                            });
+                    }
+                },
+
+                deletePersonConfirmation(person) {
+                    this.deletedPerson = person;
+                    $('#deleteConfirmationModal').modal("show");
+                },
+
+                deleteContactConfirmation(contact) {
+                    this.deletedContact = contact;
+                    $('#deleteContactModal').modal("show");
+                }
+            },
+
+            mounted: function () {
+                this.getContactTypes();
+                this.getPersonList();
+            },
+
+            computed: {
+            }
+
+        };
+
+        const vmKisiApp = Vue.createApp(kisiApp).mount('#app');
+    </script>
+}
