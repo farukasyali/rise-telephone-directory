@@ -14,7 +14,7 @@ namespace PhoneBook.Services.PersonApi.Data.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.ContactType).IsRequired();
+            builder.Property(x => x.ContactTypeId).IsRequired();
 
             builder.Property(x => x.Value).IsRequired();
 

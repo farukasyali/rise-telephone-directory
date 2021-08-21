@@ -7,7 +7,7 @@ namespace PhoneBook.Services.PersonApi.Repositories.Abstract
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(Guid id);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
@@ -24,10 +24,5 @@ namespace PhoneBook.Services.PersonApi.Repositories.Abstract
         void RemoveRange(IEnumerable<TEntity> entities);
 
         TEntity Update(TEntity entity);
-
-        int SaveChanges();
-
-        Task<int> SaveChangesAsync();
-
     }
 }

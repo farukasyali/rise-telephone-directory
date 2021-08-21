@@ -1,5 +1,6 @@
 ﻿using PhoneBook.Services.PersonApi.Repositories.Abstract;
 using PhoneBook.Services.PersonApi.Services.Abstract;
+using PhoneBook.Services.PersonApi.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -9,10 +10,12 @@ namespace PhoneBook.Services.PersonApi.Services.Concrete
 {
     public class Service<TEntity> : IService<TEntity> where TEntity : class
     {
+        public readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<TEntity> _repository;
 
-        public Service(IRepository<TEntity> repository)
+        public Service(IUnitOfWork unitOfWork, IRepository<TEntity> repository)
         {
+            _unitOfWork = unitOfWork;
             _repository = repository;
         }
 
@@ -20,7 +23,7 @@ namespace PhoneBook.Services.PersonApi.Services.Concrete
         {
             await _repository.AddAsync(entity);
 
-            await _repository.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
 
             return entity;
         }
@@ -29,7 +32,7 @@ namespace PhoneBook.Services.PersonApi.Services.Concrete
         {
             await _repository.AddRangeAsync(entities);
 
-            await _repository.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
 
             return entities;
         }
@@ -39,7 +42,7 @@ namespace PhoneBook.Services.PersonApi.Services.Concrete
             return await _repository.GetAllAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
             return await _repository.GetByIdAsync(id);
         }
@@ -48,21 +51,21 @@ namespace PhoneBook.Services.PersonApi.Services.Concrete
         {
             _repository.Remove(entity);
 
-            _repository.SaveChanges();
+            _unitOfWork.Commit();
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             _repository.RemoveRange(entities);
 
-            _repository.SaveChanges();
+            _unitOfWork.Commit();
         }
 
         public TEntity Update(TEntity entity)
         {
             TEntity updateEntity = _repository.Update(entity);
 
-            _repository.SaveChanges();
+            _unitOfWork.Commit();
 
             return updateEntity;
         }

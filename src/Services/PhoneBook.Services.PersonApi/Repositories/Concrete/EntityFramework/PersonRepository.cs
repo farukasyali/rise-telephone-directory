@@ -1,11 +1,12 @@
-﻿using PhoneBook.Services.KisiApi.Data;
+﻿using PhoneBook.Services.PersonApi.Data;
 using PhoneBook.Services.PersonApi.Models;
+using PhoneBook.Services.PersonApi.Repositories.Abstract;
 
 namespace PhoneBook.Services.PersonApi.Repositories.Concrete.EntityFramework
 {
-    public class PersonRepository : EfRepository<Person>
+    public class PersonRepository : EfRepository<Person>, IPersonRepository
     {
-        internal  AppDbContext _appDbContext { get => _context as AppDbContext; }
+        private AppDbContext _appDbContext { get => _context as AppDbContext; }
 
         public PersonRepository(AppDbContext context) : base(context)
         {

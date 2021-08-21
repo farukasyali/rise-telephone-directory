@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PhoneBook.Services.KisiApi.Data;
+using PhoneBook.Services.PersonApi.Data;
 
 namespace PhoneBook.Services.PersonApi.Migrations
 {

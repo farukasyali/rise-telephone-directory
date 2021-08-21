@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PhoneBook.Services.KisiApi.Data;
+using PhoneBook.Services.PersonApi.Data;
 
 namespace PhoneBook.Services.PersonApi.Migrations
 {
@@ -18,6 +18,40 @@ namespace PhoneBook.Services.PersonApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.ContactType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Value = "Telefon No"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Value = "E-mail"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Value = "Konum"
+                        });
+                });
 
             modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Person", b =>
                 {
@@ -50,7 +84,7 @@ namespace PhoneBook.Services.PersonApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("ContactType")
+                    b.Property<int>("ContactTypeId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("PersonId")
@@ -62,6 +96,9 @@ namespace PhoneBook.Services.PersonApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ContactTypeId")
+                        .IsUnique();
+
                     b.HasIndex("PersonId");
 
                     b.ToTable("PersonContact");
@@ -69,6 +106,12 @@ namespace PhoneBook.Services.PersonApi.Migrations
 
             modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.PersonContact", b =>
                 {
+                    b.HasOne("PhoneBook.Services.PersonApi.Models.ContactType", null)
+                        .WithOne("PersonContact")
+                        .HasForeignKey("PhoneBook.Services.PersonApi.Models.PersonContact", "ContactTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PhoneBook.Services.PersonApi.Models.Person", "Person")
                         .WithMany("PersonContacts")
                         .HasForeignKey("PersonId")
@@ -76,6 +119,11 @@ namespace PhoneBook.Services.PersonApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.ContactType", b =>
+                {
+                    b.Navigation("PersonContact");
                 });
 
             modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Person", b =>

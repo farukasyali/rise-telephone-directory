@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PhoneBook.Services.KisiApi": {
+    "PhoneBook.Services.PersonApi": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": false,

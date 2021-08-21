@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Services.KisiApi
+namespace PhoneBook.Services.PersonApi
 {
     public class Program
     {

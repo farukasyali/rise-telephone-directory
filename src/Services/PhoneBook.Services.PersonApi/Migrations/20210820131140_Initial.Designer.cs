@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PhoneBook.Services.KisiApi.Data;
+using PhoneBook.Services.PersonApi.Data;
 
 namespace PhoneBook.Services.PersonApi.Migrations
 {
@@ -21,7 +21,7 @@ namespace PhoneBook.Services.PersonApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("PhoneBook.Services.KisiApi.Models.Person", b =>
+            modelBuilder.Entity("PhoneBook.Services.PersonApi.Models.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

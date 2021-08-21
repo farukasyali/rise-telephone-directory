@@ -8,7 +8,7 @@ namespace PhoneBook.Services.PersonApi.Services.Abstract
 {
     public interface IService<TEntity> where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(Guid id);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 

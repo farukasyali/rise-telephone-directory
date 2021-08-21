@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhoneBook.Services.KisiApi.Data;
+using PhoneBook.Services.PersonApi.Data;
 using PhoneBook.Services.PersonApi.Repositories.Abstract;
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace PhoneBook.Services.PersonApi.Repositories.Concrete.EntityFramework
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }
@@ -66,15 +66,6 @@ namespace PhoneBook.Services.PersonApi.Repositories.Concrete.EntityFramework
 
             return entity;
         }
-
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
-        }
-
-        public Task<int> SaveChangesAsync()
-        {
-            return _context.SaveChangesAsync();
-        }
+       
     }
 }
