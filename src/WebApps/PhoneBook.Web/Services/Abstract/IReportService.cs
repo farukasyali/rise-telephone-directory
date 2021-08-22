@@ -7,5 +7,9 @@ namespace PhoneBook.Web.Services.Abstract
 {
     public interface IReportService
     {
+        Task<string> GetList();
+
+        Task<string> SaveReport();
+
     }
 }

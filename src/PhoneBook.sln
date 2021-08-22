@@ -7,10 +7,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{C937A242-83CE-440B-BEDF-4CE109A03329}"
 EndProject
-
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.PersonApi", "Services\PhoneBook.Services.PersonApi\PhoneBook.Services.PersonApi.csproj", "{A3A45C41-E183-4613-9B28-053159818C6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.Person.Api", "Services\Person\PhoneBook.Services.Person.Api\PhoneBook.Services.Person.Api.csproj", "{A3A45C41-E183-4613-9B28-053159818C6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Web", "WebApps\PhoneBook.Web\PhoneBook.Web.csproj", "{097B2F87-3934-4118-AE0F-F780D0D7B344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Web", "WebApps\PhoneBook.Web\PhoneBook.Web.csproj", "{097B2F87-3934-4118-AE0F-F780D0D7B344}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Person", "Person", "{8FE6FCDD-0746-484E-AF3A-376DF24A8ED6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.Person.Data", "Services\Person\PhoneBook.Services.Person.Data\PhoneBook.Services.Person.Data.csproj", "{D881B70C-5ED3-4685-A9BA-7E571A864584}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Person.Core", "Services\Person\PhoneBook.Services.Person.Core\PhoneBook.Services.Person.Core.csproj", "{3BB9D7CD-1008-486F-9F10-0F1C6278AF14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Person.Service", "Services\Person\PhoneBook.Services.Person.Services\PhoneBook.Services.Person.Service.csproj", "{D77C5543-5D59-4B48-B1BC-CE040FB36E02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{8EA2F6F7-542E-4F6D-A651-3CE5CAC63DDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Report.Api", "Services\Report\PhoneBook.Services.Report.Api\PhoneBook.Services.Report.Api.csproj", "{1E2F91DE-11C3-460F-95C7-B688C7CEC38E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Report.Core", "Services\Report\PhoneBook.Services.Report.Core\PhoneBook.Services.Report.Core.csproj", "{777F8702-9436-4588-96D3-04A17EA75143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Report.Data", "Services\Report\PhoneBook.Services.Report.Data\PhoneBook.Services.Report.Data.csproj", "{4DE36C09-DB0C-4286-887D-E2DF07203490}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Report.Service", "Services\Report\PhoneBook.Services.Report.Service\PhoneBook.Services.Report.Service.csproj", "{55F83449-189A-41CA-9FC1-6AA1FAAC5280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,17 +43,50 @@ Global
 		{097B2F87-3934-4118-AE0F-F780D0D7B344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{097B2F87-3934-4118-AE0F-F780D0D7B344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{097B2F87-3934-4118-AE0F-F780D0D7B344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D881B70C-5ED3-4685-A9BA-7E571A864584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D881B70C-5ED3-4685-A9BA-7E571A864584}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D881B70C-5ED3-4685-A9BA-7E571A864584}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D881B70C-5ED3-4685-A9BA-7E571A864584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BB9D7CD-1008-486F-9F10-0F1C6278AF14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB9D7CD-1008-486F-9F10-0F1C6278AF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB9D7CD-1008-486F-9F10-0F1C6278AF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB9D7CD-1008-486F-9F10-0F1C6278AF14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77C5543-5D59-4B48-B1BC-CE040FB36E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77C5543-5D59-4B48-B1BC-CE040FB36E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77C5543-5D59-4B48-B1BC-CE040FB36E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77C5543-5D59-4B48-B1BC-CE040FB36E02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E2F91DE-11C3-460F-95C7-B688C7CEC38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2F91DE-11C3-460F-95C7-B688C7CEC38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2F91DE-11C3-460F-95C7-B688C7CEC38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2F91DE-11C3-460F-95C7-B688C7CEC38E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777F8702-9436-4588-96D3-04A17EA75143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777F8702-9436-4588-96D3-04A17EA75143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777F8702-9436-4588-96D3-04A17EA75143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777F8702-9436-4588-96D3-04A17EA75143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE36C09-DB0C-4286-887D-E2DF07203490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE36C09-DB0C-4286-887D-E2DF07203490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE36C09-DB0C-4286-887D-E2DF07203490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE36C09-DB0C-4286-887D-E2DF07203490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F83449-189A-41CA-9FC1-6AA1FAAC5280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F83449-189A-41CA-9FC1-6AA1FAAC5280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F83449-189A-41CA-9FC1-6AA1FAAC5280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F83449-189A-41CA-9FC1-6AA1FAAC5280}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A3A45C41-E183-4613-9B28-053159818C6F} = {1E0EFF25-BAC4-4A89-9F04-79FC42270EAB}
+		{A3A45C41-E183-4613-9B28-053159818C6F} = {8FE6FCDD-0746-484E-AF3A-376DF24A8ED6}
 		{097B2F87-3934-4118-AE0F-F780D0D7B344} = {C937A242-83CE-440B-BEDF-4CE109A03329}
-	EndGlobalSection
-Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		{8FE6FCDD-0746-484E-AF3A-376DF24A8ED6} = {1E0EFF25-BAC4-4A89-9F04-79FC42270EAB}
+		{D881B70C-5ED3-4685-A9BA-7E571A864584} = {8FE6FCDD-0746-484E-AF3A-376DF24A8ED6}
+		{3BB9D7CD-1008-486F-9F10-0F1C6278AF14} = {8FE6FCDD-0746-484E-AF3A-376DF24A8ED6}
+		{D77C5543-5D59-4B48-B1BC-CE040FB36E02} = {8FE6FCDD-0746-484E-AF3A-376DF24A8ED6}
+		{8EA2F6F7-542E-4F6D-A651-3CE5CAC63DDF} = {1E0EFF25-BAC4-4A89-9F04-79FC42270EAB}
+		{1E2F91DE-11C3-460F-95C7-B688C7CEC38E} = {8EA2F6F7-542E-4F6D-A651-3CE5CAC63DDF}
+		{777F8702-9436-4588-96D3-04A17EA75143} = {8EA2F6F7-542E-4F6D-A651-3CE5CAC63DDF}
+		{4DE36C09-DB0C-4286-887D-E2DF07203490} = {8EA2F6F7-542E-4F6D-A651-3CE5CAC63DDF}
+		{55F83449-189A-41CA-9FC1-6AA1FAAC5280} = {8EA2F6F7-542E-4F6D-A651-3CE5CAC63DDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E522651-4038-497B-AB68-9AC9FD7BAE86}

@@ -1,7 +1,92 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewBag.Title = "Raporlar";
 }
+
 <h1 class="display-4">Raporlar</h1>
 <hr />
+
+<div id="app">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="">
+                Rapor Listesi
+            </h4>
+        </div>
+
+        <div class="col-6">
+
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action text-primary" v-on:click="saveReport()" style="cursor:pointer;">
+                    <i class="fas fa-plus"></i> Rapor Talebi Oluştur
+                </li>
+                <li class="list-group-item list-group-item-action" v-for="item in reportList">
+                    <div v-on:click="getPersonDetail(item)" style="cursor:pointer;">
+                        <p class="mb-0"> {{item.id + '.pdf ' }} </p>
+                        <small class="text-muted">{{tarihFormatla(item.requestDate)}}</small>
+                    </div>
+                    <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;" >
+                        {{item.status}}
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        const reportApp = {
+            data() {
+                return {
+                    reportList: [],
+                }
+            },
+
+            methods: {
+
+                getReportList() {
+                    axios.post("/Report/GetReportList")
+                        .then(res => {
+                            this.reportList = res.data;
+                        });
+                },
+
+                saveReport() {
+
+                    let p = {};
+                    axios.post("/Report/SaveReport", p)
+                        .then(res => {
+                            if (res.data.error != undefined) {
+                                toastr.error(res.data.error);
+                                return false;
+                            }
+
+                            let tempArray = this.reportList.filter(a => a.id != res.data.id);
+                            tempArray.splice(0, 0, Object.assign({}, res.data));
+                            this.reportList = tempArray;
+
+                            toastr.success("Kayıt Başarılı");
+                        });
+                },
+
+                tarihFormatla(tarih) {
+                    return new Date(tarih).toLocaleDateString()
+                }
+                
+            },
+
+            mounted: function () {
+                this.getReportList();
+            },
+
+            computed: {
+            }
+
+        };
+
+        const vmReportApp = Vue.createApp(reportApp).mount('#app');
+    </script>
+}
