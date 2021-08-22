@@ -13,5 +13,7 @@ namespace PhoneBook.Services.Report.Core.Services
         Task<ReportDto> AddAsync();
 
         Task<bool> SaveRepotData(Guid id, string data);
+
+        Task<string> GetRepotData(Guid id);
     }
 }

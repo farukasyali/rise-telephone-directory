@@ -35,7 +35,6 @@ namespace PhoneBook.Services.Report.Service.Services
             await _unitOfWork.CommitAsync();
 
             return _mapper.Map<ReportDto>(entity);
-
         }
 
         public async Task<IEnumerable<ReportDto>> GetListAsync()
@@ -61,5 +60,15 @@ namespace PhoneBook.Services.Report.Service.Services
 
             return true;
         }
+
+        public async Task<string> GetRepotData(Guid id)
+        {
+            var entity = await _unitOfWork.Report.GetByIdAsync(id);
+            if (entity == null)
+                return "[]";
+
+            return entity.Data;
+        }
+
     }
 }

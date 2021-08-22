@@ -39,6 +39,20 @@ namespace PhoneBook.Web.Services
             return responseSuccess;
         }
 
+        public async Task<string> GetReportData(Guid id)
+        {
+            var response = await _client.GetAsync($"api/Report/getReportData?id={id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var responseSuccess = await response.Content.ReadAsStringAsync();
+
+            return responseSuccess;
+        }
+
         public async Task<string> SaveReport()
         {
             var data = new StringContent(string.Empty, Encoding.UTF8, "application/json");
@@ -54,5 +68,7 @@ namespace PhoneBook.Web.Services
 
             return responseSuccess;
         }
+
+
     }
 }

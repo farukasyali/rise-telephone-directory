@@ -11,5 +11,7 @@ namespace PhoneBook.Web.Services.Abstract
 
         Task<string> SaveReport();
 
+        Task<string> GetReportData(Guid id);
+
     }
 }

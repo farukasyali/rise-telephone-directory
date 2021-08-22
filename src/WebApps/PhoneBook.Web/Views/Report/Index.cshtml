@@ -14,22 +14,59 @@
             </h4>
         </div>
 
-        <div class="col-6">
+        <div class="col-5">
 
             <ul class="list-group">
                 <li class="list-group-item list-group-item-action text-primary" v-on:click="saveReport()" style="cursor:pointer;">
                     <i class="fas fa-plus"></i> Rapor Talebi Oluştur
                 </li>
-                <li class="list-group-item list-group-item-action" v-for="item in reportList">
-                    <div v-on:click="getPersonDetail(item)" style="cursor:pointer;">
+                <li class="list-group-item list-group-item-action" v-for="item in reportList" style="cursor:pointer;">
+                    <div v-on:click="getReportData(item)" style="cursor:pointer;">
                         <p class="mb-0"> {{item.id + '.pdf ' }} </p>
                         <small class="text-muted">{{tarihFormatla(item.requestDate)}}</small>
                     </div>
-                    <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;">
+                    <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;" v-if="item.status == 'Tamamlandı'">
+                        {{item.status}}
+                    </button>
+                    <button class="btn btn-primary position-absolute btn-sm" style="right:10px; bottom:10px;" v-else>
                         {{item.status}}
                     </button>
                 </li>
             </ul>
+        </div>
+
+        <div class="col-7">
+            <h4 class="">
+                Rapor İçeriği
+            </h4>
+
+            <div class="row">
+                <div class="col-6">
+                    <small class="text-muted font-weight-bold">Rapor Adı: </small> 
+                    <div>{{selectedReport.id}}</div>
+                </div>
+                <div class="col-6">
+                    <small class="text-muted font-weight-bold">Rapor Talep Tarihi : </small> 
+                    <div>{{tarihFormatla(selectedReport.requestDate)}}</div>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Konum</th>
+                        <th>Rehbere Kayıtlı Kişi Sayısı</th>
+                        <th>Rehbere Kayıtlı Telefon Numarası Sayısı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in reportData">
+                        <td>{{item.location}}</td>
+                        <td>{{item.registeredPersonCount}}</td>
+                        <td>{{item.registeredPhoneNoCount}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -59,6 +96,8 @@
             data() {
                 return {
                     reportList: [],
+                    reportData: [],
+                    selectedReport: {},
                 }
             },
 
@@ -90,12 +129,31 @@
                 },
 
                 tarihFormatla(tarih) {
+                    if (tarih == undefined)
+                        return "";
+
                     return new Date(tarih).toLocaleDateString()
                 },
 
                 reportCreated(id) {
                     var report = this.reportList.filter(a => a.id == id)[0];
                     report.status = "Tamamlandı";
+                },
+
+                getReportData(report) {
+
+                    axios.post("/Report/GetReportData?id=" + report.id)
+                        .then(res => {
+                            if (res.data.error != undefined) {
+                                toastr.error(res.data.error);
+                                return false;
+                            }
+
+                            this.reportData = res.data;
+                            this.selectedReport = report;
+
+                            toastr.success("Rapor Yüklendi.");
+                        });
                 }
 
             },

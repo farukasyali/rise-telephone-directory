@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Web.Services.Abstract;
+using System;
 using System.Threading.Tasks;
 
 namespace PhoneBook.Web.Controllers
@@ -31,6 +32,14 @@ namespace PhoneBook.Web.Controllers
         public async Task<IActionResult> SaveReport()
         {
             var result = await _reportService.SaveReport();
+
+            return new ContentResult() { Content = result, ContentType = "application/json" };
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetReportData(Guid id)
+        {
+            var result = await _reportService.GetReportData(id);
 
             return new ContentResult() { Content = result, ContentType = "application/json" };
         }

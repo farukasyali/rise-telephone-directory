@@ -67,5 +67,16 @@ namespace PhoneBook.Services.Report.Api.Controllers
             return Ok(true);
         }
 
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<string>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpGet("getReportData")]
+        public async Task<IActionResult> GetReportData(Guid id)
+        {
+            var result = await _reportService.GetRepotData(id);
+
+            return Ok(result);
+        }
+
     }
 }
