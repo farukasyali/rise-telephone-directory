@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PhoneBook.Shared.Models;
 using PhoneBook.Web.Extentions;
+using PhoneBook.Web.Hubs;
 using PhoneBook.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,7 @@ namespace PhoneBook.Web
             services.Configure<ServiceSettings>(Configuration.GetSection("ServiceSettings"));
             services.AddHttpClientServices(Configuration);
             services.AddControllersWithViews();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +58,8 @@ namespace PhoneBook.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ReportHub>("/reportHub");
             });
         }
     }

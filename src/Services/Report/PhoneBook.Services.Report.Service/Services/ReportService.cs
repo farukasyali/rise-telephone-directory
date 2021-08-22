@@ -46,5 +46,20 @@ namespace PhoneBook.Services.Report.Service.Services
 
             return _mapper.Map<List<ReportDto>>(result);
         }
+
+        public async Task<bool> SaveRepotData(Guid id, string data)
+        {
+            var entity = await _unitOfWork.Report.GetByIdAsync(id);
+            if (entity == null)
+                return false;
+
+            entity.Data = data;
+            entity.Status = "Tamamlandı";
+
+            _unitOfWork.Report.Update(entity);
+            await _unitOfWork.CommitAsync();
+
+            return true;
+        }
     }
 }

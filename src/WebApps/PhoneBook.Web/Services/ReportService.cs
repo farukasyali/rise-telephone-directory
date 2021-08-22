@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using PhoneBook.Shared.Models;
 using PhoneBook.Web.Models;
 using PhoneBook.Web.Services.Abstract;
 using System;

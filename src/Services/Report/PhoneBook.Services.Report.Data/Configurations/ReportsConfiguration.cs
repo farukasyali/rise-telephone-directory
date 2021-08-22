@@ -14,7 +14,9 @@ namespace PhoneBook.Services.Report.Data.Configurations
 
             builder.Property(x => x.Status).IsRequired().HasMaxLength(50);
 
-            builder.ToTable("Reports");
+            builder.Property(x => x.Data).HasMaxLength(int.MaxValue);
+
+            builder.ToTable("Reports", "public" );
         }
     }
 }

@@ -62,6 +62,17 @@ namespace PhoneBook.Services.Person.Api.Controllers
             return Ok(true);
         }
 
-        
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpGet("getReportData")]
+        public async Task<IActionResult> GetReportData()
+        {
+            var entity = await _personService.GetReportData();
+
+            return Ok(entity);
+        }
+
+
     }
 }

@@ -11,7 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\lib\signalr\" />
     <Folder Include="wwwroot\lib\toastr\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\PhoneBook.Shared\PhoneBook.Shared.csproj" />
   </ItemGroup>
 
 </Project>

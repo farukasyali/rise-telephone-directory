@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using PhoneBook.Shared.Models;
 using PhoneBook.Web.Models;
 using PhoneBook.Web.Services.Abstract;
 using System;

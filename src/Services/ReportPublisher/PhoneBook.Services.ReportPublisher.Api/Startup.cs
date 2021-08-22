@@ -1,20 +1,16 @@
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using PhoneBook.Services.Report.Core.Repositories;
-using PhoneBook.Services.Report.Core.Services;
-using PhoneBook.Services.Report.Core.UnitOfWorks;
-using PhoneBook.Services.Report.Data;
-using PhoneBook.Services.Report.Data.Repositories.EntityFramework;
-using PhoneBook.Services.Report.Data.UnitOfWorks;
-using PhoneBook.Services.Report.Service.Services;
+using PhoneBook.Services.ReportPublisher.Api.Consumers;
+using PhoneBook.Services.ReportPublisher.Api.Services;
+using PhoneBook.Services.ReportPublisher.Api.Services.Abstract;
+using PhoneBook.Shared.Models;
 
-namespace PhoneBook.Services.Report.Api
+namespace PhoneBook.Services.ReportPublisher.Api
 {
     public class Startup
     {
@@ -28,30 +24,20 @@ namespace PhoneBook.Services.Report.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddScoped(typeof(IService<>), typeof(Service<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IReportService, ReportService>();
-
-            services.AddAutoMapper(typeof(Startup));
+            services.Configure<ServiceSettings>(Configuration.GetSection("ServiceSettings"));
+            services.Configure<ReportFileSettings>(Configuration.GetSection("ReportFileSettings"));
+            services.AddHttpClient<IReportService, ReportService>();
+            services.AddHttpClient<IPersonService, PersonService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Services.Report.Api", Version = "v1" });
-            });
-
-            services.AddDbContext<PhoneBookReportDbContext>(options =>
-            {
-                options.UseNpgsql(Configuration["ConnectionStrings:PostgresqlConnection"].ToString(), configure =>
-                {
-                    configure.MigrationsAssembly("PhoneBook.Services.Report.Data");
-                });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Services.ReportPublisher.Api", Version = "v1" });
             });
 
             services.AddMassTransit(x =>
             {
+                x.AddConsumer<CreateReportMessageCommandConsumer>();
                 // Default Port : 5672
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -60,6 +46,12 @@ namespace PhoneBook.Services.Report.Api
                         host.Username("guest");
                         host.Password("guest");
                     });
+
+                    cfg.ReceiveEndpoint("create-report-service", e =>
+                    {
+                        e.ConfigureConsumer<CreateReportMessageCommandConsumer>(context);
+                    });
+                    
                 });
             });
 
@@ -73,7 +65,7 @@ namespace PhoneBook.Services.Report.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBook.Services.Report.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBook.Services.ReportPublisher.Api v1"));
             }
 
             app.UseHttpsRedirection();

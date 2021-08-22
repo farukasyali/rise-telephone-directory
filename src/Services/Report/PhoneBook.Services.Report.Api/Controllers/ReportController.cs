@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Services.Report.Core.Dtos;
 using PhoneBook.Services.Report.Core.Services;
+using PhoneBook.Shared.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,14 @@ namespace PhoneBook.Services.Report.Api.Controllers
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public ReportController(IMapper mapper, IReportService reportService)
+        public ReportController(IMapper mapper
+            , IReportService reportService
+            , ISendEndpointProvider sendEndpointProvider)
         {
             _reportService = reportService;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         [Produces("application/json", "text/plain")]
@@ -39,8 +45,26 @@ namespace PhoneBook.Services.Report.Api.Controllers
         public async Task<IActionResult> SaveReport()
         {
             var result = await _reportService.AddAsync();
+
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-report-service"));
+
+            var createReportMessageCommand = new CreateReportMessageCommand();
+            createReportMessageCommand.ReportId = result.Id;
+
+            await sendEndpoint.Send(createReportMessageCommand);
+
             return Ok(result);
 
+        }
+
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpPost("saveReportData")]
+        public async Task<IActionResult> SaveReportData([FromForm]string value, [FromForm]Guid id)
+        {
+            await _reportService.SaveRepotData(id, value);
+            return Ok(true);
         }
 
     }

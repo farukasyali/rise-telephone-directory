@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PhoneBook.Services.Report.Data;
 
-namespace PhoneBook.Services.Report.Api.Migrations
+namespace PhoneBook.Services.Report.Data.Migrations
 {
     [DbContext(typeof(PhoneBookReportDbContext))]
     partial class PhoneBookReportDbContextModelSnapshot : ModelSnapshot
@@ -25,6 +25,10 @@ namespace PhoneBook.Services.Report.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Data")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -35,7 +39,7 @@ namespace PhoneBook.Services.Report.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", "public");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,5 +11,7 @@ namespace PhoneBook.Services.Person.Core.Services
 
         Task<IEnumerable<PersonDto>> GetListAsync();
 
+        Task<IEnumerable<ReportDataDto>> GetReportData();
+
     }
 }

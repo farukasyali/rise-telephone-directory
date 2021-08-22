@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.2.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -13,13 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\PhoneBook.Shared\PhoneBook.Shared.csproj" />
     <ProjectReference Include="..\PhoneBook.Services.Report.Core\PhoneBook.Services.Report.Core.csproj" />
     <ProjectReference Include="..\PhoneBook.Services.Report.Data\PhoneBook.Services.Report.Data.csproj" />
     <ProjectReference Include="..\PhoneBook.Services.Report.Service\PhoneBook.Services.Report.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

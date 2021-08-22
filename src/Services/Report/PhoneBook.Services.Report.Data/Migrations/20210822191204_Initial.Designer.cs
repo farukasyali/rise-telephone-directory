@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PhoneBook.Services.Report.Data;
 
-namespace PhoneBook.Services.Report.Api.Migrations
+namespace PhoneBook.Services.Report.Data.Migrations
 {
     [DbContext(typeof(PhoneBookReportDbContext))]
-    [Migration("20210822093015_Initial")]
+    [Migration("20210822191204_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,10 @@ namespace PhoneBook.Services.Report.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Data")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -37,7 +41,7 @@ namespace PhoneBook.Services.Report.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", "public");
                 });
 #pragma warning restore 612, 618
         }

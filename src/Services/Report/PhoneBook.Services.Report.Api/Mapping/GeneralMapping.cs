@@ -9,6 +9,7 @@ namespace PhoneBook.Services.Report.Api.Mapping
         public GeneralMapping()
         {
             CreateMap<Reports, ReportDto>().ReverseMap();
+            CreateMap<Reports, ReportDataDto>().ReverseMap();
         }
     }
 }

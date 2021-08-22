@@ -44,5 +44,10 @@ namespace PhoneBook.Services.Person.Service.Services
 
             return _mapper.Map<List<PersonDto>>(result);
         }
+
+        public async Task<IEnumerable<ReportDataDto>> GetReportData()
+        {
+            return await _unitOfWork.Persons.GetReportData();
+        }
     }
 }

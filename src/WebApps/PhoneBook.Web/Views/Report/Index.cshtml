@@ -25,19 +25,36 @@
                         <p class="mb-0"> {{item.id + '.pdf ' }} </p>
                         <small class="text-muted">{{tarihFormatla(item.requestDate)}}</small>
                     </div>
-                    <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;" >
+                    <button class="btn btn-light position-absolute btn-sm" style="right:10px; bottom:10px;">
                         {{item.status}}
                     </button>
                 </li>
             </ul>
         </div>
-        
+
     </div>
 
 </div>
 
+@section Header{
+
+    <script src="~/lib/signalr/signalr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const signalRConn = new signalR.HubConnectionBuilder()
+                .withUrl("/reportHub").build();
+            signalRConn.start();
+
+            signalRConn.on("reportCreated", messege => {
+                vmReportApp.reportCreated(messege);
+            })
+        })
+    </script>
+}
+
 @section Scripts{
     <script>
+
         const reportApp = {
             data() {
                 return {
@@ -74,8 +91,13 @@
 
                 tarihFormatla(tarih) {
                     return new Date(tarih).toLocaleDateString()
+                },
+
+                reportCreated(id) {
+                    var report = this.reportList.filter(a => a.id == id)[0];
+                    report.status = "Tamamlandı";
                 }
-                
+
             },
 
             mounted: function () {
