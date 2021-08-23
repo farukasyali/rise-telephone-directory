@@ -27,7 +27,7 @@ namespace PhoneBook.Services.Person.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
+
             services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -44,7 +44,11 @@ namespace PhoneBook.Services.Person.Api
 
             services.AddDbContext<PhoneBookDbContext>(options =>
             {
-                options.UseNpgsql(Configuration["ConnectionStrings:PostgresqlConnection"].ToString(), b => b.MigrationsAssembly("PhoneBook.Services.Person.Api"));
+                options.UseNpgsql(Configuration["ConnectionStrings:PostgresqlConnection"].ToString(),
+                    configure =>
+                    {
+                        configure.MigrationsAssembly("PhoneBook.Services.Person.Data");
+                    });
             });
         }
 

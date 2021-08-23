@@ -57,6 +57,7 @@ namespace PhoneBook.Services.Person.Service.Services
             else
                 return false;
 
+            await _unitOfWork.CommitAsync();
             return true;
         }
     }
